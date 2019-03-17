@@ -38,13 +38,13 @@ object SparkAnalyzerExamples extends SparkConfigurable with QueryPlanExplainable
     //complex sql
     explain(
       """
-        |SELECT year, count(year) AS movies_count
-        |FROM movies
-        |WHERE name LIKE '%a%'
-        |GROUP BY year
-        |HAVING movies_count >= 1
-        |ORDER BY movies_count DESC
-        |LIMIT 5
+        | SELECT year, count(year) AS movies_count
+        | FROM movies
+        | WHERE name LIKE '%a%'
+        | GROUP BY year
+        | HAVING movies_count >= 1
+        | ORDER BY movies_count DESC
+        | LIMIT 5
       """.stripMargin)
   }
 }
