@@ -36,6 +36,8 @@ object SparkAnalyzerExamples extends SparkConfigurable with QueryPlanExplainable
     explain("SELECT name, year FROM movies WHERE year >= 2017")
 
     //complex sql
+    // grouping  expressions: year
+    // aggregate expressions: yer, COUNT('year) AS movies_count
     explain(
       """
         | SELECT year, count(year) AS movies_count

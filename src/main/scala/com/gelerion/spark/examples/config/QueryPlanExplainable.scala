@@ -1,6 +1,8 @@
 package com.gelerion.spark.examples.config
 
-import org.apache.spark.sql.SQLContext
+import java.lang.reflect.Field
+
+import org.apache.spark.sql.{SQLContext, SchemaRDD}
 
 trait QueryPlanExplainable {
   val sqlContext: SQLContext
@@ -12,7 +14,16 @@ trait QueryPlanExplainable {
     println("----------------------------------------------------------------------------------")
     println(sql.trim)
     println()
-    println("Execution Plan:")
+
+    println("Logical Plan:")
+    println("----------------------------------------------------------------------------------")
+    println(logicalPlan(data))
+
+    println("Analyzed Plan:")
+    println("----------------------------------------------------------------------------------")
+    println(data.queryExecution.analyzed)
+
+    println("Physical Plan:")
     println("----------------------------------------------------------------------------------")
     println(data.queryExecution.executedPlan)
 
@@ -38,5 +49,13 @@ trait QueryPlanExplainable {
     println()
     println("*********************************************************************************************************")
     println()
+  }
+
+  private def logicalPlan(data: SchemaRDD) = {
+//    val mirror = universe.runtimeMirror(data.getClass.getClassLoader)
+//    val instanceMirror = mirror.reflect(data)
+    val field: Field = classOf[SchemaRDD].getDeclaredField("logicalPlan")
+    field.setAccessible(true)
+    field.get(data)
   }
 }
